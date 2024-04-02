@@ -180,6 +180,16 @@ contract PrestamoDefi {
     }
 
 
+// Paso 14 - Función: obtenerDetalleDePrestamo
+    function obtenerDetalleDePrestamo(
+        address prestatario_,
+        uint256 id_
+    ) public view returns(Prestamo memory) {
+        return clientes[prestatario_].prestamos[id_];
+    }
+    
+    }
+
 
 
 
