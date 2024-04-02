@@ -65,7 +65,24 @@ contract PrestamoDefi {
         empleadosPrestamista[nuevoPrestamista] = true;
     }
 
+// Paso 7 - Función altaCliente
+    function altaCliente (address nuevoCliente) public soloEmpleadoPrestamista {
+        require (!clientes[nuevoCliente].activado, "Error: el cliente ya esta dado de alta");
+        Cliente storage structNuevoCliente = clientes[nuevoCliente];
+        structNuevoCliente.activado = true;
+        structNuevoCliente.saldoGarantia = 0;
+    }
+
+
+// Paso 8 - Función depositarGarantia & actualizar el saldo del cliente
+    function depositarGarantia() public payable soloClienteRegistrado {
+        clientes[msg.sender].saldoGarantia += msg.value;
+    }
+
     
+
+
+
 
 
 
