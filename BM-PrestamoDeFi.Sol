@@ -146,7 +146,7 @@ contract PrestamoDefi {
 
             emit PrestamoReembolsado(msg.sender, prestamo.monto);
         }
-        
+
 
 // Paso 12 - Función: liquidarGarantia
     function liquidarPrestamo(
@@ -169,6 +169,14 @@ contract PrestamoDefi {
         prestatario.saldoGarantia -= prestamo.monto;
 
         emit GarantiaLiquidada(prestatario_, prestamo.monto);
+    }
+
+
+// Paso 13 - Función: obtenerPrestamosPorPrestatario
+    function obtenerPrestamosPorPrestatario(
+        address prestatario_
+    ) public view returns(uint256[] memory) {
+        return clientes[prestatario_].prestamoIds;
     }
 
 
