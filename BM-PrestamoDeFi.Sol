@@ -80,6 +80,31 @@ contract PrestamoDefi {
     }
 
     
+// Paso 9 - Función solicitarPréstamos
+    function solicitarPrestamo(
+        uint256 monto_, uint256 plazo_
+        ) public soloClienteRegistrado returns(uint256) {
+            require(clientes[msg.sender].saldoGarantia >= monto_, "Error: Saldo de Garantia insufficiente");
+        uint256 nuevoId = clientes[msg.sender].prestamoIds.length + 1;
+
+        Prestamo storage nuevoPrestamo = clientes[msg.sender].prestamos[nuevoId];
+        nuevoPrestamo.id = nuevoId;
+        nuevoPrestamo.prestatario = msg.sender;
+        nuevoPrestamo.monto = monto_;
+        nuevoPrestamo.plazo = plazo_;
+        nuevoPrestamo.tiempoSolicitud = block.timestamp; // la fecha actual
+        nuevoPrestamo.tiempoLimite = 0; // cambiará al ser aprobado
+        nuevoPrestamo.aprobado = false;
+        nuevoPrestamo.reembolsado = false;
+        nuevoPrestamo.liquidado = false;
+
+        clientes[msg.sender].prestamoIds.push(nuevoId);
+
+        emit SolicitudPrestamo(msg.sender, monto_, plazo_);
+
+        return nuevoId;
+    }
+
 
 
 
