@@ -41,6 +41,19 @@ contract PrestamoDefi {
         _;
     }
 
+    
+    modifier soloEmpleadoPrestamista () {
+        require(empleadosPrestamista[msg.sender], "Error: No eres un empleado Prestamista");
+        _;
+    }
+
+    modifier soloClienteRegistrado () {
+       require(clientes[msg.sender].activado, "Error: No eres un cliente Registrado");
+       _; 
+    }
+
+    
+
 
 
 
