@@ -125,6 +125,29 @@ contract PrestamoDefi {
     }
 
 
+// Paso 11 - Función: reembolsarPrestamo
+    function reembolsarPrestamo(
+        uint256 id_
+    ) public soloClienteRegistrado {
+            Cliente storage prestatario = clientes[msg.sender];
+            require(id_ > 0 && id_ <= prestatario.prestamoIds.length, "Error, ID de prestamo no valido");
+
+            Prestamo storage prestamo = prestatario.prestamos[id_];
+            require(msg.sender == prestamo.prestatario, "Error: No estat autorizado para reembolsar");
+            require(prestamo.aprobado, "El prestamo no esta aprobado");
+            require(!prestamo.reembolsado, "El prestamo ha sido reembolsado");
+            require(!prestamo.liquidado, "El prestamo ha sido liquidado");
+            require(block.timestamp <= prestamo.tiempoLimite, "Tiempo de pago expirado");
+
+            payable(socioPrincipal).transfer(prestamo.monto);
+
+            prestamo.reembolsado = true;
+            prestatario.saldoGarantia -= prestamo.monto;
+
+            emit PrestamoReembolsado(msg.sender, prestamo.monto);
+        }
+
+
 
 
 
