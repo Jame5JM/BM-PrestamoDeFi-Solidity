@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+// Pasos 1 & 2
+contract PrestamoDefi {
+    address public socioPrincipal;
+
+    struct Prestamo {
+        uint256 id;
+        address prestatario;
+        uint256 monto;
+        uint256 plazo;
+        uint256 tiempoSolicitud;
+        uint256 tiempoLimite;
+        bool aprobado;
+        bool reembolsado;
+        bool liquidado;
+
+    }
+
+
+
