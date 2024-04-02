@@ -18,5 +18,30 @@ contract PrestamoDefi {
 
     }
 
+    
+    struct Cliente {
+        bool activado;
+        uint256 saldoGarantia;
+        mapping(uint256 => Prestamo) prestamos;
+        uint256[] prestamoIds;
+    }
+
+    mapping(address => Cliente) public clientes;
+    mapping(address => bool) public empleadosPrestamista;
+
+// Paso 3 - Eventos 
+    event SolicitudPrestamo(address indexed prestatario, uint256 monto, uint256 plazo);
+    event PrestamoAprobado(address indexed prestatario, uint256 monto);
+    event PrestamoReembolsado(address indexed prestatario, uint256 monto);
+    event GarantiaLiquidada(address indexed prestatario, uint256 monto);
+
+// Paso 4 -  Modificadores
+    modifier soloSocioPrincipal () {
+        require(msg.sender == socioPrincipal, "Error: No es el socio Principal");
+        _;
+    }
+
+
+
 
 
