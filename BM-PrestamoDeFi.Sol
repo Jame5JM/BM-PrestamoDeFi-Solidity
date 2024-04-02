@@ -106,6 +106,25 @@ contract PrestamoDefi {
     }
 
 
+// Paso 10 - Función: aprobarPrestamo
+    function aprobarPrestamo(address prestatario_, uint256 id_
+    ) public soloEmpleadoPrestamista {
+
+        Cliente storage prestatario = clientes[prestatario_];
+        require(id_ > 0 && id_<= prestatario.prestamoIds.length, "Error: ID de prestamo no valido");
+
+        Prestamo storage prestamo = prestatario.prestamos[id_];
+        require(!prestamo.aprobado, "El prestamo ya esta aprobado");
+        require(!prestamo.reembolsado, "El prestamo ha sido reembolsado");
+        require(!prestamo.liquidado, "El prestamo ha sido liquidado");
+
+        prestamo.aprobado = true;
+        prestamo.tiempoLimite = block.timestamp + prestamo.plazo;
+        emit PrestamoAprobado(prestatario_, prestamo.monto);
+
+    }
+
+
 
 
 
