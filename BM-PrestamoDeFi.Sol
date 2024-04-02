@@ -53,6 +53,19 @@ contract PrestamoDefi {
     }
 
     
+// Paso 5 - constructores
+    constructor() {
+        socioPrincipal = msg.sender;
+        empleadosPrestamista[socioPrincipal] = true;
+    }
+
+// Paso 6 - Función: altaPrestamista
+    function altaPrestamista (address nuevoPrestamista) public soloSocioPrincipal {
+        require (!empleadosPrestamista[nuevoPrestamista], "Error: el prestamista ya esta dado de alta");
+        empleadosPrestamista[nuevoPrestamista] = true;
+    }
+
+    
 
 
 
