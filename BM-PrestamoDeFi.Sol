@@ -146,6 +146,30 @@ contract PrestamoDefi {
 
             emit PrestamoReembolsado(msg.sender, prestamo.monto);
         }
+        
+
+// Paso 12 - Función: liquidarGarantia
+    function liquidarPrestamo(
+        address prestatario_,
+        uint256 id_
+    ) public soloEmpleadoPrestamista {
+        Cliente storage prestatario = clientes[prestatario_];
+        require(id_ > 0 && id_ <= prestatario.prestamoIds.length, "Error: ID de prestamo no valido");
+
+         Prestamo storage prestamo = prestatario.prestamos[id_];
+
+        require(prestamo.aprobado, "Error: El prestamo no esta aprobado");
+        require(!prestamo.reembolsado, "Error: El prestamo ya ha sido reembolsado");
+        require(!prestamo.liquidado, "Error: El prestamo ya ha sido liquidado");
+        require(block.timestamp > prestamo.tiempoLimite, "Tiempo de pago no ha expirado");
+
+        payable(socioPrincipal).transfer(prestamo.monto);
+
+        prestamo.liquidado = true;
+        prestatario.saldoGarantia -= prestamo.monto;
+
+        emit GarantiaLiquidada(prestatario_, prestamo.monto);
+    }
 
 
 
